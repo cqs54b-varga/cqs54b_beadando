@@ -11,8 +11,8 @@ class Fajlkezelo :
         self.szoveg = tk.StringVar()
         self.szoveg.set("Ide írd a kívánt szöveget.")
 
-        self.szoveg_input = tk.Entry(master, textvariable=self.szoveg, width=100, background="lightgrey" , )
-        self.szoveg_input.pack(pady=10 )
+        self.szoveg_input = tk.Entry(master, textvariable=self.szoveg, width=100, background="lightgrey", font="30" )
+        self.szoveg_input.pack(pady=200 )
 
         self.mentes_gomb = tk.Button(master, text="Szöveg mentése", command=self.szoveg_mentese)
         self.mentes_gomb.pack(pady=5)
