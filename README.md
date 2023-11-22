@@ -1,5 +1,6 @@
 # Varga László CQS54B Szkript nyelvek beadandó
-Beadandó leírása: A faladat amit választottam egy szövegkonvertáló alkalmazás, amely lehetővé teszi szöveges tartalmak beolvasását, karakterkódolásának(UTF-8, UTF16) konvertálását, majd az átalakított tartalom mentését egy fájlba. Adatok jelzésével.
+Beadandó leírása:
+A feladat amit választottam egy szövegkonvertáló alkalmazás, amely lehetővé teszi szöveges tartalmak beolvasását, karakterkódolásának(UTF-8, UTF16) konvertálását, majd az átalakított tartalom mentését egy fájlba. Adatok jelzésével.
 
 
 3 Modulom:
