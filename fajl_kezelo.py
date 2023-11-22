@@ -10,3 +10,7 @@ def fajlbeolvasas(file_path):
 def fajlmentes(file_path, content, encoding='utf-8'):
     with open(file_path, 'w', encoding=encoding) as file:
         file.write(content)
+
+def fuzes(file_path, content, encoding='utf-8'):
+    with open(file_path, 'a', encoding=encoding) as file:
+        file.write(content)

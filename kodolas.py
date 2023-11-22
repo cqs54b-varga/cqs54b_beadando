@@ -1,4 +1,4 @@
-# main_belepes.py
+# kodolas.py
 
 def karakterkonvertalas(tartalom, forras_encoding, cel_encoding):
     try:
