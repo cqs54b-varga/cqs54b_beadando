@@ -1,4 +1,4 @@
-# tkinter.py
+# tkinter_felulet.py
 import tkinter as tk
 from tkinter import filedialog
 from fajl_kezelo import fajlbeolvasas, fajlmentes, fuzes
