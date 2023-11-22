@@ -1,62 +1,65 @@
-#tkinter_felulet.py
+# tkinter.py
 import tkinter as tk
 from tkinter import filedialog
-from fajl_kezelo import szoveg_mentese, karakterkodvaltas
+from fajl_kezelo import fajlbeolvasas, fajlmentes
+from main_belepes import karakterkonvertalas
 
-class Fajlkezelo :
-    def __init__(self, master):
-        self.master = master
-        master.title("Karakterkódolás")
 
-        self.szoveg = tk.StringVar()
-        self.szoveg.set("Ide írd a kívánt szöveget.")
+class felulet:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Szövegkonvertáló")
 
-        self.szoveg_input = tk.Entry(master, textvariable=self.szoveg, width=100, background="lightgrey", font="30" )
-        self.szoveg_input.pack(pady=200 )
+        self.text_content = tk.Text(self.root, wrap='word', width=60, height=10, background="lightgrey")
+        self.text_content.pack(pady=10)
 
-        self.mentes_gomb = tk.Button(master, text="Szöveg mentése", command=self.szoveg_mentese)
-        self.mentes_gomb.pack(pady=5)
+        self.load_button = tk.Button(self.root, text="Fájl betöltése", command=self.fajlbetoltes)
+        self.load_button.pack(pady=5)
 
-        self.fajlvalaszto_gomb = tk.Button(master, text="Fájl kiválasztása", command=self.fajl_kivalasztasa)
-        self.fajlvalaszto_gomb.pack(pady=5)
+        self.file_path_label = tk.Label(self.root, text="Fájl elérési útvonala:")
+        self.file_path_label.pack()
 
-        self.kodvaltas_label = tk.Label(master, text="Válassz karakterkódot:")
-        self.kodvaltas_label.pack(pady=5)
+        self.encoding_var = tk.StringVar()
+        self.encoding_var.set('utf-8')  # Kezdeti karakterkódolás beállítása
 
-        self.karakterkod_valaszto = tk.StringVar()
-        self.karakterkod_valaszto.set("utf-8")
+        self.encoding_label = tk.Label(self.root, text="Karakterkódolás:")
+        self.encoding_label.pack()
 
-        karakterkodok = ["utf-8", "ISO-8859-1", "windows-1252"]
-        self.karakterkod_menu = tk.OptionMenu(master, self.karakterkod_valaszto, *karakterkodok)
-        self.karakterkod_menu.pack(pady=5)
+        # Hozzáadott karakterkódolások
+        self.encoding_options = ['utf-8', 'latin-1', 'utf-16', 'ISO-8859-1', 'cp1250', 'ascii', 'unicode_escape', 'ANSI']
+        self.encoding_dropdown = tk.OptionMenu(self.root, self.encoding_var, *self.encoding_options)
+        self.encoding_dropdown.pack(pady=5)
 
-        self.kodvaltas_gomb = tk.Button(master, text="Karakterkódváltás", command=self.karakterkodvaltas)
-        self.kodvaltas_gomb.pack(pady=5)
+        self.save_button = tk.Button(self.root, text="Mentés", command=self.Szovegmentes)
+        self.save_button.pack(pady=5)
 
-    def szoveg_mentese(self):
-        szoveg = self.szoveg.get()
-        fajlnev = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text Files", "*.txt")])
-        if fajlnev:
-            szoveg_mentese(szoveg, fajlnev)
-            tk.messagebox.showinfo("Mentés", f"A szöveg sikeresen el lett mentve a {fajlnev} fájlba.")
+    def fajlbetoltes(self):
+        file_path = filedialog.askopenfilename(filetypes=[("Text Files", "*.txt")])
+        if file_path:
+            content = fajlbeolvasas(file_path)
+            self.text_content.delete("1.0", tk.END)
+            self.text_content.insert(tk.END, content)
+            self.file_path_label.config(text=f"Fájl elérési útvonala: {file_path}")
 
-    def fajl_kivalasztasa(self):
-        fajlnev = filedialog.askopenfilename(filetypes=[("Text Files", "*.txt")])
-        if fajlnev:
-            self.szoveg.set("")
-            with open(fajlnev, 'r', encoding='utf-8') as fajl:
-                self.szoveg.set(fajl.read())
+    def TextKonvertalas(self):
+        content = self.text_content.get("1.0", tk.END)
+        target_encoding = self.encoding_var.get()
+        converted_content = karakterkonvertalas(content, 'utf-8', target_encoding)
+        if converted_content:
+            self.text_content.delete("1.0", tk.END)
+            self.text_content.insert(tk.END, converted_content.decode(target_encoding))
 
-    def karakterkodvaltas(self):
-        fajlnev = filedialog.askopenfilename(filetypes=[("Text Files", "*.txt")])
-        if fajlnev:
-            uj_karakterkod = self.karakterkod_valaszto.get()
-            if karakterkodvaltas(fajlnev, uj_karakterkod):
-                tk.messagebox.showinfo("Karakterkódváltás", f"A {fajlnev} fájl karakterkódja megváltoztatva {uj_karakterkod}-re.")
-            else:
-                tk.messagebox.showerror("Hiba", "A karakterkódváltás sikertelen.")
+    def Szovegmentes(self):
+        content = self.text_content.get("1.0", tk.END)
+        target_encoding = self.encoding_var.get()
+        file_path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text Files", "*.txt")])
+        if file_path:
+            fajlmentes(file_path, content, encoding=target_encoding)
+            print(f"A szöveg sikeresen mentve: {file_path}")
+            self.file_path_label.config(text=f"Fájl elérési útvonala: {file_path}")
+
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = Fajlkezelo(root)
+    app = felulet(root)
     root.mainloop()
