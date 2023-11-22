@@ -1,4 +1,6 @@
 # main_belepes.py
+
+
 from fajl_kezelo import szoveg_mentese, karakterkodvaltas
 
 # Például szöveg mentése
