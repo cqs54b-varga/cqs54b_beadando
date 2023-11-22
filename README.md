@@ -1,12 +1,11 @@
 # Varga László CQS54B Szkript nyelvek beadandó
-Beadandó leírása: A feladatom az volt hogy a bekért sz 
+Beadandó leírása: A faladat amit választottam egy szövegkonvertáló alkalmazás, amely lehetővé teszi szöveges tartalmak beolvasását, karakterkódolásának(UTF-8, UTF16) konvertálását, majd az átalakított tartalom mentését egy fájlba. Adatok jelzésével.
 
 
 3 Modulom:
 - fajl_kezelo              Modul felelős a fájlkezelésért, beleértve a szöveges tartalom beolvasását, kódolását és mentését.
 - kodolas                  Modul tartalmazza a karakterkódolás konverziójáért felelős függvényeket.
 - tkinter_felulet          modul kezeli a grafikus felhasználói felületet és az eseményeket.
-
 
 
 
